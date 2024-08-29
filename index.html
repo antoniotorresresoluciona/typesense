@@ -11,102 +11,102 @@
     <!-- InstantSearch CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/instantsearch.css@7.4.0/themes/algolia-min.css">
     
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <!-- Estilos personalizados -->
     <style>
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f8f9fa;
+            font-family: 'Roboto', sans-serif;
+            background-color: #f0f2f5;
+            color: #333;
+        }
+
+        .container {
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-top: 50px;
         }
 
         .logo {
             display: block;
-            max-width: 150px;
-            margin: 20px auto;
+            max-width: 200px;
+            margin: 0 auto 30px;
         }
 
         h1 {
             font-size: 2.5rem;
-            font-weight: bold;
-            color: #333;
+            font-weight: 700;
+            color: #2c3e50;
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
         h3 {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #0056b3;
-            border-bottom: 2px solid #0056b3;
-            padding-bottom: 10px;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin-top: 20px;
-            padding: 20px;
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-        }
-
-        .col-md-3 {
-            border-right: 2px solid #ddd;
-        }
-
-        .col-md-9 {
-            padding-left: 30px;
-        }
-
-        .mb-4 h4 {
-            font-size: 1.2rem;
-            color: #333;
-            margin-bottom: 10px;
-            font-weight: bold;
-        }
-
-        .ais-RefinementList-checkbox {
-            margin-right: 10px;
-        }
-
-        .ais-RefinementList-labelText {
+            font-size: 1.8rem;
             font-weight: 600;
-            color: #444;
+            color: #3498db;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
         }
 
-        .ais-RefinementList-count {
-            margin-left: 5px;
-            color: #aaa;
+        .filter-section {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .filter-section h4 {
+            font-size: 1.2rem;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-weight: 600;
         }
 
         #searchbox input {
             height: 50px;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             border-radius: 25px;
             padding-left: 20px;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             border: 1px solid #ddd;
         }
 
         #hits .hit-name {
-            font-size: 1.4rem;
-            color: #0056b3;
-            font-weight: bold;
-            margin-bottom: 5px;
+            font-size: 1.3rem;
+            color: #2980b9;
+            font-weight: 600;
+            margin-bottom: 10px;
         }
 
         #hits .hit-description {
             font-size: 1rem;
             color: #555;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
 
-        #hits div {
-            padding: 10px;
-            border-bottom: 1px solid #eee;
+        #hits .hit-item {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+
+        #hits .hit-item:hover {
+            transform: translateY(-5px);
         }
 
         #pagination {
             text-align: center;
+            margin-top: 30px;
         }
 
         #pagination .ais-Pagination-item {
@@ -115,8 +115,39 @@
         }
 
         #pagination .ais-Pagination-link {
-            color: #0056b3;
-            font-weight: bold;
+            color: #3498db;
+            font-weight: 600;
+            padding: 8px 12px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        #pagination .ais-Pagination-link:hover {
+            background-color: #eef2f7;
+        }
+
+        .ais-RefinementList-label {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .ais-RefinementList-checkbox {
+            margin-right: 10px;
+        }
+
+        .ais-RefinementList-labelText {
+            font-weight: 500;
+            color: #34495e;
+        }
+
+        .ais-RefinementList-count {
+            margin-left: 5px;
+            background-color: #3498db;
+            color: #fff;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-size: 0.8rem;
         }
     </style>
 </head>
@@ -125,17 +156,17 @@
         <!-- Logo -->
         <img src="https://resoluciona.es/wp-content/uploads/2022/03/resoluciona.svg" alt="Resoluciona" class="logo">
         
-        <h1 class="mb-4">Buscador de Documentos</h1>
+        <h1><i class="fas fa-search"></i> Buscador de Documentos</h1>
         
         <div class="row">
             <div class="col-md-3">
-                <h3>Filtros</h3>
-                <div class="mb-4">
-                    <h4>Subvención</h4>
+                <h3><i class="fas fa-filter"></i> Filtros</h3>
+                <div class="filter-section mb-4">
+                    <h4><i class="fas fa-money-bill-wave"></i> Subvención</h4>
                     <div id="subvencion-list"></div>
                 </div>
-                <div class="mb-4">
-                    <h4>Boletín</h4>
+                <div class="filter-section mb-4">
+                    <h4><i class="fas fa-newspaper"></i> Boletín</h4>
                     <div id="boletin-list"></div>
                 </div>
             </div>
