@@ -19,7 +19,7 @@ const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
   
   const search = instantsearch({
     searchClient,
-    indexName: "documentos"
+    indexName: "diario"
   });
   
   search.addWidgets([
