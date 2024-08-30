@@ -1,192 +1,179 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buscador de Documentos</title>
+<!DOCTYPE html> <html lang="es"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Buscador de Documentos</title>
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- InstantSearch CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/instantsearch.css@7.4.0/themes/algolia-min.css">
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<!-- Estilos personalizados -->
+<style>
+    body {
+        font-family: 'Roboto', sans-serif;
+        background-color: #f0f2f5;
+        color: #333;
+    }
+
+    .container {
+        background-color: #ffffff;
+        border-radius: 15px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+        margin-top: 50px;
+    }
+
+    .logo {
+        display: block;
+        max-width: 200px;
+        margin: 0 auto 30px;
+    }
+
+    h1 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #2c3e50;
+        text-align: center;
+        margin-bottom: 30px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+
+    h3 {
+        font-size: 1.8rem;
+        font-weight: 600;
+        color: #3498db;
+        border-bottom: 2px solid #3498db;
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+    }
+
+    .filter-section {
+        background-color: #f8f9fa;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+
+    .filter-section h4 {
+        font-size: 1.2rem;
+        color: #2c3e50;
+        margin-bottom: 15px;
+        font-weight: 600;
+    }
+
+    #searchbox input {
+        height: 50px;
+        font-size: 1.1rem;
+        border-radius: 25px;
+        padding-left: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border: 1px solid #ddd;
+    }
+
+    #hits .hit-name {
+        font-size: 1.3rem;
+        color: #2980b9;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+
+    #hits .hit-description {
+        font-size: 1rem;
+        color: #555;
+        margin-bottom: 15px;
+    }
+
+    #hits .hit-item {
+        background-color: #fff;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+        transition: transform 0.3s ease;
+    }
+
+    #hits .hit-item:hover {
+        transform: translateY(-5px);
+    }
+
+    #pagination {
+        text-align: center;
+        margin-top: 30px;
+    }
+
+    #pagination .ais-Pagination-item {
+        display: inline-block;
+        margin: 0 5px;
+    }
+
+    #pagination .ais-Pagination-link {
+        color: #3498db;
+        font-weight: 600;
+        padding: 8px 12px;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+
+    #pagination .ais-Pagination-link:hover {
+        background-color: #eef2f7;
+    }
+
+    .ais-RefinementList-label {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .ais-RefinementList-checkbox {
+        margin-right: 10px;
+    }
+
+    .ais-RefinementList-labelText {
+        font-weight: 500;
+        color: #34495e;
+    }
+
+    .ais-RefinementList-count {
+        margin-left: 5px;
+        background-color: #3498db;
+        color: #fff;
+        padding: 2px 6px;
+        border-radius: 10px;
+        font-size: 0.8rem;
+    }
+</style>
+</head> <body> <div class="container"> <!-- Logo --> <img src="https://resoluciona.es/wp-content/uploads/2022/03/resoluciona.svg" alt="Resoluciona" class="logo">
+    <h1><i class="fas fa-search"></i> Buscador de Documentos</h1>
     
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    
-    <!-- InstantSearch CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/instantsearch.css@7.4.0/themes/algolia-min.css">
-    
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Estilos personalizados -->
-    <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #f0f2f5;
-            color: #333;
-        }
-
-        .container {
-            background-color: #ffffff;
-            border-radius: 15px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            margin-top: 20px;
-        }
-
-        .logo {
-            display: block;
-            max-width: 150px;
-            margin: 0 auto 20px;
-        }
-
-        h1 {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #2c3e50;
-            text-align: center;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        #searchbox input {
-            width: 100%;
-            height: 40px;
-            font-size: 1rem;
-            border-radius: 20px;
-            padding-left: 15px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border: 1px solid #ddd;
-            margin-bottom: 20px;
-        }
-
-        .hit-item {
-            background-color: #fff;
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 15px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
-        }
-
-        .hit-name {
-            font-size: 1.2rem;
-            color: #2980b9;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-
-        .hit-description {
-            font-size: 0.9rem;
-            color: #555;
-            margin-bottom: 12px;
-        }
-
-        .hit-metadata {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 10px;
-        }
-
-        .hit-metadata span {
-            background-color: #e0e0e0;
-            color: #333;
-            padding: 4px 8px;
-            border-radius: 12px;
-            font-size: 0.8rem;
-        }
-
-        .show-more {
-            display: block;
-            width: 200px;
-            margin: 20px auto;
-            padding: 10px;
-            background-color: #3498db;
-            color: white;
-            text-align: center;
-            border-radius: 5px;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .show-more:hover {
-            background-color: #2980b9;
-        }
-
-        @media (min-width: 768px) {
-            .hits-container {
-                display: grid;
-                grid-template-columns: repeat(2, 1fr);
-                gap: 15px;
-            }
-        }
-
-        @media (min-width: 992px) {
-            .hits-container {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <!-- Logo -->
-        <img src="https://resoluciona.es/wp-content/uploads/2022/03/resoluciona.svg" alt="Resoluciona" class="logo">
-        
-        <h1><i class="fas fa-search"></i> Buscador de Documentos</h1>
-        
-        <div id="searchbox" class="mb-4">
-            <input type="search" placeholder="Buscar documentos...">
+    <div class="row">
+        <div class="col-md-3">
+            <h3><i class="fas fa-filter"></i> Filtros</h3>
+            <div class="filter-section mb-4">
+                <h4><i class="fas fa-money-bill-wave"></i> Subvención</h4>
+                <div id="subvencion-list"></div>
+            </div>
+            <div class="filter-section mb-4">
+                <h4><i class="fas fa-newspaper"></i> Boletín</h4>
+                <div id="boletin-list"></div>
+            </div>
         </div>
-
-        <div class="hits-container" id="hits">
-            <!-- Los resultados se insertarán aquí dinámicamente -->
+        
+        <div class="col-md-9">
+            <div id="searchbox" class="mb-4"></div>
+            <div id="hits"></div>
+            <div id="pagination" class="mt-4"></div>
         </div>
-
-        <a href="#" class="show-more" id="show-more">Mostrar más</a>
     </div>
+</div>
 
-    <!-- InstantSearch.js -->
-    <script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4.49.1"></script>
-    
-    <!-- Typesense InstantSearch Adapter -->
-    <script src="https://cdn.jsdelivr.net/npm/typesense-instantsearch-adapter@2/dist/typesense-instantsearch-adapter.min.js"></script>
-    
-    <!-- Tu script personalizado -->
-    <script src="app.js"></script>
+<!-- InstantSearch.js -->
+<script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4.49.1"></script>
 
-    <script>
-        // Ejemplo de cómo podrías generar los resultados dinámicamente
-        function createHitItem(hit) {
-            return `
-                <div class="hit-item">
-                    <h3 class="hit-name">${hit.name}</h3>
-                    <p class="hit-description">${hit.description}</p>
-                    <div class="hit-metadata">
-                        <span>Fecha: ${hit.date}</span>
-                        <span>Boletín: ${hit.bulletin}</span>
-                        <span>Subvención: ${hit.subsidy}</span>
-                    </div>
-                    <a href="#" class="text-primary">Ver más</a>
-                </div>
-            `;
-        }
+<!-- Typesense InstantSearch Adapter -->
+<script src="https://cdn.jsdelivr.net/npm/typesense-instantsearch-adapter@2/dist/typesense-instantsearch-adapter.min.js"></script>
 
-        // Simulación de resultados (reemplaza esto con tu lógica real de búsqueda)
-        const mockHits = [
-            { name: "Aprobación definitiva expediente de modificación de créditos", description: "Aprobación definitiva expediente de modificación de créditos n°3/2024 presupuesto en vigor. (pdf 67 kB)", date: "2024-08-30", bulletin: "BOP - CUENCA", subsidy: "No" },
-            { name: "Otro documento de ejemplo", description: "Descripción de otro documento de ejemplo", date: "2024-09-01", bulletin: "BOP - ALICANTE", subsidy: "Sí" },
-            // Añade más resultados de ejemplo aquí
-        ];
-
-        const hitsContainer = document.getElementById('hits');
-        mockHits.forEach(hit => {
-            hitsContainer.innerHTML += createHitItem(hit);
-        });
-
-        // Ejemplo de funcionalidad para el botón "Mostrar más"
-        document.getElementById('show-more').addEventListener('click', function(e) {
-            e.preventDefault();
-            // Aquí añadirías la lógica para cargar más resultados
-            alert('Cargar más resultados');
-        });
-    </script>
-</body>
-</html>
+<!-- Tu script personalizado -->
+<script src="app.js"></script>
+</body> </html>
