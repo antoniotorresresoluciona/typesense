@@ -46,53 +46,18 @@
             letter-spacing: 1px;
         }
 
-        h3 {
-            font-size: 1.4rem;
-            font-weight: 600;
-            color: #3498db;
-            border-bottom: 2px solid #3498db;
-            padding-bottom: 10px;
-            margin-bottom: 15px;
-        }
-
-        .filter-section {
-            background-color: #f8f9fa;
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 15px;
-        }
-
-        .filter-section h4 {
-            font-size: 1.1rem;
-            color: #2c3e50;
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
-
         #searchbox input {
+            width: 100%;
             height: 40px;
             font-size: 1rem;
             border-radius: 20px;
             padding-left: 15px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             border: 1px solid #ddd;
-            width: 100%;
+            margin-bottom: 20px;
         }
 
-        #hits .hit-name {
-            font-size: 1.2rem;
-            color: #2980b9;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-
-        #hits .hit-description {
-            font-size: 0.9rem;
-            color: #555;
-            margin-bottom: 12px;
-        }
-
-        #hits .hit-item {
+        .hit-item {
             background-color: #fff;
             border-radius: 10px;
             padding: 15px;
@@ -100,73 +65,62 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
         }
 
-        #pagination {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        #pagination .ais-Pagination-item {
-            display: inline-block;
-            margin: 0 3px;
-        }
-
-        #pagination .ais-Pagination-link {
-            color: #3498db;
+        .hit-name {
+            font-size: 1.2rem;
+            color: #2980b9;
             font-weight: 600;
-            padding: 6px 10px;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-
-        .ais-RefinementList-label {
-            display: flex;
-            align-items: center;
             margin-bottom: 8px;
         }
 
-        .ais-RefinementList-checkbox {
-            margin-right: 8px;
-        }
-
-        .ais-RefinementList-labelText {
-            font-weight: 500;
-            color: #34495e;
+        .hit-description {
             font-size: 0.9rem;
+            color: #555;
+            margin-bottom: 12px;
         }
 
-        .ais-RefinementList-count {
-            margin-left: 5px;
+        .hit-metadata {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .hit-metadata span {
+            background-color: #e0e0e0;
+            color: #333;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+        }
+
+        .show-more {
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+            padding: 10px;
             background-color: #3498db;
-            color: #fff;
-            padding: 2px 6px;
-            border-radius: 10px;
-            font-size: 0.7rem;
+            color: white;
+            text-align: center;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
         }
 
-        @media (max-width: 768px) {
-            .container {
-                padding: 15px;
-                margin-top: 10px;
-            }
+        .show-more:hover {
+            background-color: #2980b9;
+        }
 
-            h1 {
-                font-size: 1.5rem;
+        @media (min-width: 768px) {
+            .hits-container {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
             }
+        }
 
-            h3 {
-                font-size: 1.2rem;
-            }
-
-            .filter-section h4 {
-                font-size: 1rem;
-            }
-
-            #hits .hit-name {
-                font-size: 1.1rem;
-            }
-
-            #hits .hit-description {
-                font-size: 0.85rem;
+        @media (min-width: 992px) {
+            .hits-container {
+                grid-template-columns: repeat(3, 1fr);
             }
         }
     </style>
@@ -178,26 +132,15 @@
         
         <h1><i class="fas fa-search"></i> Buscador de Documentos</h1>
         
-        <div id="searchbox" class="mb-4"></div>
-
-        <div class="row">
-            <div class="col-md-3 mb-4">
-                <h3><i class="fas fa-filter"></i> Filtros</h3>
-                <div class="filter-section mb-3">
-                    <h4><i class="fas fa-money-bill-wave"></i> Subvención</h4>
-                    <div id="subvencion-list"></div>
-                </div>
-                <div class="filter-section mb-3">
-                    <h4><i class="fas fa-newspaper"></i> Boletín</h4>
-                    <div id="boletin-list"></div>
-                </div>
-            </div>
-            
-            <div class="col-md-9">
-                <div id="hits"></div>
-                <div id="pagination" class="mt-4"></div>
-            </div>
+        <div id="searchbox" class="mb-4">
+            <input type="search" placeholder="Buscar documentos...">
         </div>
+
+        <div class="hits-container" id="hits">
+            <!-- Los resultados se insertarán aquí dinámicamente -->
+        </div>
+
+        <a href="#" class="show-more" id="show-more">Mostrar más</a>
     </div>
 
     <!-- InstantSearch.js -->
@@ -208,5 +151,42 @@
     
     <!-- Tu script personalizado -->
     <script src="app.js"></script>
+
+    <script>
+        // Ejemplo de cómo podrías generar los resultados dinámicamente
+        function createHitItem(hit) {
+            return `
+                <div class="hit-item">
+                    <h3 class="hit-name">${hit.name}</h3>
+                    <p class="hit-description">${hit.description}</p>
+                    <div class="hit-metadata">
+                        <span>Fecha: ${hit.date}</span>
+                        <span>Boletín: ${hit.bulletin}</span>
+                        <span>Subvención: ${hit.subsidy}</span>
+                    </div>
+                    <a href="#" class="text-primary">Ver más</a>
+                </div>
+            `;
+        }
+
+        // Simulación de resultados (reemplaza esto con tu lógica real de búsqueda)
+        const mockHits = [
+            { name: "Aprobación definitiva expediente de modificación de créditos", description: "Aprobación definitiva expediente de modificación de créditos n°3/2024 presupuesto en vigor. (pdf 67 kB)", date: "2024-08-30", bulletin: "BOP - CUENCA", subsidy: "No" },
+            { name: "Otro documento de ejemplo", description: "Descripción de otro documento de ejemplo", date: "2024-09-01", bulletin: "BOP - ALICANTE", subsidy: "Sí" },
+            // Añade más resultados de ejemplo aquí
+        ];
+
+        const hitsContainer = document.getElementById('hits');
+        mockHits.forEach(hit => {
+            hitsContainer.innerHTML += createHitItem(hit);
+        });
+
+        // Ejemplo de funcionalidad para el botón "Mostrar más"
+        document.getElementById('show-more').addEventListener('click', function(e) {
+            e.preventDefault();
+            // Aquí añadirías la lógica para cargar más resultados
+            alert('Cargar más resultados');
+        });
+    </script>
 </body>
 </html>
